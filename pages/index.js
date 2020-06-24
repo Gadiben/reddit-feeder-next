@@ -1,26 +1,37 @@
 import React from "react";
-import Head from "next/head";
-import ApolloClient from "apollo-boost";
-import { gql } from "apollo-boost";
 import { withApollo } from "../libs/apollo";
 import { useQuery } from "@apollo/react-hooks";
-import { EXCHANGE_RATES } from "../gql/test";
+import { USERS } from "../gql/test";
+import Link from "next/link";
+import TextField from "@material-ui/core/TextField";
 
-function ExchangeRates() {
-  const { loading, error, data } = useQuery(EXCHANGE_RATES);
+function Users() {
+  const { loading, error, data } = useQuery(USERS);
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error :(</p>;
 
-  return data.rates.map(({ currency, rate }) => (
-    <div key={currency}>
+  return (
+    <>
+      <h1>
+        Search <a href="/search">Reddit</a>
+      </h1>
       <p>
-        {currency}: {rate}
+        {data.users.map(({ name, bookmarks }) => (
+          <ul key={name}>
+            {name}
+            {bookmarks.map((bookmark) => {
+              console.log(name);
+              console.log(bookmark);
+              return <li key={bookmark}>{bookmark}</li>;
+            })}
+          </ul>
+        ))}
       </p>
-    </div>
-  ));
+    </>
+  );
 }
-export default withApollo()(ExchangeRates);
+export default withApollo()(Users);
 
 // export default function Home() {
 //   return (
