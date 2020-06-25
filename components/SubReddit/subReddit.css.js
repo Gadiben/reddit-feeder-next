@@ -10,6 +10,13 @@ export default css`
       "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans",
       "Helvetica Neue", sans-serif;
   }
+  .subbredit-header {
+    display: flex;
+    justify-content: space-between;
+  }
+  .star-container:hover {
+    cursor: pointer;
+  }
   .subreddit-title {
     font-size: 2em;
     color: #474747;

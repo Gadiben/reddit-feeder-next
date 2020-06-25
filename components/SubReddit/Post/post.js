@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { Comment } from "./Comment/comment";
 import PostStyle from "./post.css";
 export const Post = (props) => {
-  console.log(props.post.thumbnail);
   return (
     <div className="post-container">
       <div className="post-author">{props.post.author}</div>
