@@ -7,11 +7,24 @@ import InputAdornment from "@material-ui/core/InputAdornment";
 import Button from "@material-ui/core/Button";
 import CircularProgress from "@material-ui/core/CircularProgress";
 
-import { POPULAR } from "../gql/querries";
-import { SubReddit } from "../components/SubReddit/subReddit";
+import { POPULAR, NEW } from "../gql/queries";
+import { RedditFeeder } from "../components/RedditFeeder/redditFeeder";
 function Search() {
   const [searchTerm, setsearchTerm] = useState("");
+  const [dataSrc, setDataSrc] = useState(POPULAR);
   const { loading, error, data } = useQuery(POPULAR);
+
+  const changeDataSource = (newValue) => {
+    switch (newValue) {
+      case "new":
+        setDataSrc(NEW);
+        break;
+      case "popular":
+        setDataSrc(POPULAR);
+        break;
+    }
+  };
+
   return (
     <div className="search-page">
       <h1>Search</h1>
@@ -47,16 +60,26 @@ function Search() {
           Search
         </Button>
       </form>
+      <div className="browse-container">
+        <Button
+          variant="contained"
+          onClick={() => {
+            changeDataSource("popular");
+          }}
+        >
+          Browse Popular subreddits
+        </Button>
+        <Button
+          variant="contained"
+          onClick={() => {
+            changeDataSource("new");
+          }}
+        >
+          Browse New subreddits
+        </Button>
+      </div>
       {data ? (
-        data.searchPopularReddit.map((subreddit) => {
-          // console.log(subreddit);
-          return (
-            <SubReddit
-              title={subreddit.title}
-              posts={subreddit.posts}
-            ></SubReddit>
-          );
-        })
+        <RedditFeeder query={dataSrc}></RedditFeeder>
       ) : (
         <div className="loading">
           <CircularProgress />
