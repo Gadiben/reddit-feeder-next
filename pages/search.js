@@ -19,12 +19,14 @@ export default function Search() {
         }}
       >
         <TextField
+          fullWidth
           label="Search for subreddits"
           InputProps={{
             startAdornment: (
               <InputAdornment position="start">r/</InputAdornment>
             ),
           }}
+          style={{ margin: 20 }}
           onChange={(e) => {
             console.log(e.target.value);
             setsearchTerm(e.target.value);
@@ -39,6 +41,21 @@ export default function Search() {
           Search
         </Button>
       </form>
+      <style jsx>
+        {`
+        .search-reddit {
+          width: 80%;
+          margin: auto;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+        }
+        .search-bar{
+          margin: 20px;
+        }
+        `}
+        </style>
     </>
   );
 }
