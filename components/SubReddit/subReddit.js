@@ -6,14 +6,7 @@ export const SubReddit = (props) => {
     <div className="subreddit-container">
       <div className="subreddit-title">{props.title}</div>
       {props.posts.map((post) => {
-        return (
-          <Post
-            author={post.author}
-            content={post.content}
-            title={post.title}
-            comments={post.comments}
-          ></Post>
-        );
+        return <Post post={post}></Post>;
       })}
       <style jsx>{SubredditStyle}</style>
     </div>

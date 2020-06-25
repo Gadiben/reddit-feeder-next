@@ -25,6 +25,7 @@ export const NEW = gql`
         title
         content
         author
+        thumbnail
         comments {
           author
           content
@@ -42,6 +43,7 @@ export const POPULAR = gql`
         title
         content
         author
+        thumbnail
         comments {
           author
           content

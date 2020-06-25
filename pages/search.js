@@ -11,7 +11,7 @@ function Search() {
   const [searchTerm, setsearchTerm] = useState("");
   const { loading, error, data } = useQuery(POPULAR);
   return (
-    <>
+    <div className="search-page">
       <h1>Search</h1>
       <form
         className="search-reddit"
@@ -47,7 +47,7 @@ function Search() {
       </form>
       {data
         ? data.searchPopularReddit.map((subreddit) => {
-            console.log(subreddit);
+            // console.log(subreddit);
             return (
               <SubReddit
                 title={subreddit.title}
@@ -58,8 +58,12 @@ function Search() {
         : ""}
       <style jsx>
         {`
+          .search-page {
+            max-width: 1100px;
+            margin auto;
+          }
           .search-reddit {
-            width: 80%;
+            width: 60%;
             margin: auto;
             display: flex;
             flex-direction: column;
@@ -73,7 +77,7 @@ function Search() {
           }
         `}
       </style>
-    </>
+    </div>
   );
 }
 export default withApollo()(Search);

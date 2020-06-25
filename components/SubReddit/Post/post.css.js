@@ -1,5 +1,8 @@
 import css from "styled-jsx/css";
 export default css`
+  .post-container {
+    padding: 10px;
+  }
   .post-title {
     font-size: 1.2em;
   }

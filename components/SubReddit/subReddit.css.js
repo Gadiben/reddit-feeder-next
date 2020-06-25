@@ -2,7 +2,7 @@ import css from "styled-jsx/css";
 export default css`
   .subreddit-container {
     margin: 30px auto;
-    padding: 10px;
+    padding: 15px;
     border: 1px solid rgba(150, 150, 150, 0.3);
     box-shadow: lightgrey 0 0 15px 0;
     overflow: hidden;
