@@ -17,22 +17,35 @@ export const UserNameInput = (props) => {
         }}
       />
       <div className="name-actions">
-        <Button
-          size="small"
-          variant="outlined"
-          color="primary"
-          onClick={() => props.login(userName)}
-        >
-          Login
-        </Button>
-        <Button
-          size="small"
-          variant="outlined"
-          color="secondary"
-          onClick={() => props.signup(userName)}
-        >
-          Signup
-        </Button>
+        {!props.isLoggedIn ? (
+          <>
+            <Button
+              size="small"
+              variant="outlined"
+              color="primary"
+              onClick={() => props.login(userName)}
+            >
+              Login
+            </Button>
+            <Button
+              size="small"
+              variant="outlined"
+              color="secondary"
+              onClick={() => props.signup()}
+            >
+              Signup
+            </Button>
+          </>
+        ) : (
+          <Button
+            size="small"
+            variant="outlined"
+            color="primary"
+            onClick={() => props.logout()}
+          >
+            Log Out
+          </Button>
+        )}
       </div>
       <style jsx>{userNameInputStyle}</style>
     </>

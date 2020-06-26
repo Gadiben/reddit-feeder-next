@@ -1,16 +1,29 @@
 import React, { useState } from "react";
 import { SubReddit } from "./SubReddit/subReddit";
 import { useQuery } from "@apollo/react-hooks";
-import { POPULAR, NEW } from "../../gql/queries";
+import { POPULAR, NEW, BOOKMARKS } from "../../gql/queries";
 
 export const RedditFeeder = (props) => {
   const { loading, error, data } = useQuery(props.query);
-  return (props.query === POPULAR
-    ? data.searchPopularReddit
-    : data.searchNewReddit
-  ).map((subreddit) => {
-    return (
-      <SubReddit title={subreddit.title} posts={subreddit.posts}></SubReddit>
-    );
-  });
+  // console.log(props.bookmarks);
+  return (
+    <>
+      {data.searchPopularReddit.map((subreddit) => {
+        return (
+          <>
+            <p>{props.userName}</p>
+            <SubReddit
+              title={subreddit.title}
+              posts={subreddit.posts}
+              bookmarked={
+                props.bookmarks
+                  ? props.bookmarks.includes(subreddit.title)
+                  : false
+              }
+            ></SubReddit>
+          </>
+        );
+      })}
+    </>
+  );
 };

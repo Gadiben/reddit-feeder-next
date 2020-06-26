@@ -15,7 +15,7 @@ export const SubReddit = (props) => {
             setBookmarked(!bookmarked);
           }}
         >
-          {bookmarked ? <StarIcon /> : <StarBorderOutlinedIcon />}
+          {props.bookmarked ? <StarIcon /> : <StarBorderOutlinedIcon />}
         </div>
       </div>
       {props.posts.map((post) => {

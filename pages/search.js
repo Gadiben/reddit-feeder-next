@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import { useQuery } from "@apollo/react-hooks";
+import { useQuery, useLazyQuery } from "@apollo/react-hooks";
+
 import TextField from "@material-ui/core/TextField";
 import { withApollo } from "../libs/apollo";
 import InputLabel from "@material-ui/core/InputLabel";
@@ -12,10 +13,38 @@ import { RedditFeeder } from "../components/RedditFeeder/redditFeeder";
 // import { UserNameInput } from "../components/UserNameInput/userNameInput";
 import { UserNameInput } from "../components/UserNameInput/userNameInput";
 function Search() {
-  const [searchTerm, setsearchTerm] = useState("");
-
+  const [searchTerm, setsearchTerm] = useState("gautier");
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [userName, setUserName] = useState();
   const [dataSrc, setDataSrc] = useState(POPULAR);
+
   const { loading, error, data } = useQuery(POPULAR);
+
+  const [userBookmarks, setUserBookmarks] = useState();
+
+  const [getBookmarks, _] = useLazyQuery(BOOKMARKS, {
+    variables: {
+      userName: userName,
+    },
+    onCompleted: (data) => {
+      if (data && data.bookmarks.name) {
+        setIsLoggedIn(true);
+        setUserBookmarks(data.bookmarks);
+      } else {
+        alert("Wrong username");
+      }
+    },
+  });
+
+  const login = (userName) => {
+    setUserName(userName);
+    getBookmarks();
+  };
+
+  const logout = () => {
+    setIsLoggedIn(false);
+    setUserBookmarks();
+  };
 
   const changeDataSource = (newValue) => {
     switch (newValue) {
@@ -27,9 +56,6 @@ function Search() {
         break;
     }
   };
-  const login = () => {
-    console.log("login");
-  };
 
   const signup = () => {
     console.log("signup");
@@ -39,7 +65,12 @@ function Search() {
     <div className="search-page">
       <h1>Search</h1>
       <div className="name-input">
-        <UserNameInput login={login} signup={signup} />
+        <UserNameInput
+          login={login}
+          logout={logout}
+          signup={signup}
+          isLoggedIn={isLoggedIn}
+        />
       </div>
       <form
         className="search-reddit"
@@ -92,7 +123,12 @@ function Search() {
         </Button>
       </div>
       {data ? (
-        <RedditFeeder query={dataSrc}></RedditFeeder>
+        <>
+          <RedditFeeder
+            query={dataSrc}
+            bookmarks={userBookmarks?.bookmarks}
+          ></RedditFeeder>
+        </>
       ) : (
         <div className="loading">
           <CircularProgress />

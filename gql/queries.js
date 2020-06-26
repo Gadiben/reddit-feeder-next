@@ -53,9 +53,9 @@ export const POPULAR = gql`
   }
 `;
 
-export const BOOKMARKS = (userName) => gql`
-  {
-    bookmarks:(userName: ${userName}){
+export const BOOKMARKS = gql`
+  query bookmarks($userName: String!) {
+    bookmarks(userName: $userName) {
       name
       bookmarks
     }
