@@ -52,3 +52,12 @@ export const POPULAR = gql`
     }
   }
 `;
+
+export const BOOKMARKS = (userName) => gql`
+  {
+    bookmarks:(userName: ${userName}){
+      name
+      bookmarks
+    }
+  }
+`;

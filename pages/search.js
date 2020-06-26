@@ -7,10 +7,13 @@ import InputAdornment from "@material-ui/core/InputAdornment";
 import Button from "@material-ui/core/Button";
 import CircularProgress from "@material-ui/core/CircularProgress";
 
-import { POPULAR, NEW } from "../gql/queries";
+import { POPULAR, NEW, BOOKMARKS } from "../gql/queries";
 import { RedditFeeder } from "../components/RedditFeeder/redditFeeder";
+// import { UserNameInput } from "../components/UserNameInput/userNameInput";
+import { UserNameInput } from "../components/UserNameInput/userNameInput";
 function Search() {
   const [searchTerm, setsearchTerm] = useState("");
+
   const [dataSrc, setDataSrc] = useState(POPULAR);
   const { loading, error, data } = useQuery(POPULAR);
 
@@ -24,10 +27,20 @@ function Search() {
         break;
     }
   };
+  const login = () => {
+    console.log("login");
+  };
+
+  const signup = () => {
+    console.log("signup");
+  };
 
   return (
     <div className="search-page">
       <h1>Search</h1>
+      <div className="name-input">
+        <UserNameInput login={login} signup={signup} />
+      </div>
       <form
         className="search-reddit"
         noValidate
@@ -104,6 +117,14 @@ function Search() {
             flex-direction: column;
             justify-content: center;
             align-items: center;
+          }
+          .name-input {
+            position: fixed;
+
+            padding: 10px;
+            right: 0;
+            top: 0;
+            background-color: #f5f5f5;
           }
           * {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto",

@@ -1,7 +1,7 @@
 import React from "react";
 import { withApollo } from "../libs/apollo";
 import { useQuery } from "@apollo/react-hooks";
-import { USERS } from "../gql/querries";
+import { USERS } from "../gql/queries";
 import Link from "next/link";
 import TextField from "@material-ui/core/TextField";
 
