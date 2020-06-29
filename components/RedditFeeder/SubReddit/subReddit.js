@@ -6,16 +6,33 @@ import StarIcon from "@material-ui/icons/Star";
 import StarBorderOutlinedIcon from "@material-ui/icons/StarBorderOutlined";
 
 import { ADD_BOOKMARK, REMOVE_BOOKMARK } from "../../../gql/mutations";
+import { BOOKMARKS } from "../../../gql/queries";
 
 export const SubReddit = (props) => {
-  const [bookmarked, setBookmarked] = useState(props.bookmarked);
-
-  const [addBookmark, addBData] = useMutation(ADD_BOOKMARK);
-  const [removeBookmark, removeBData] = useMutation(REMOVE_BOOKMARK);
+  const [addBookmark] = useMutation(ADD_BOOKMARK, {
+    update(cache, { data: { addBookmark } }) {
+      console.log("Adding bookmark");
+      console.log(addBookmark);
+      props.setUserBookmarks(addBookmark);
+      cache.writeQuery({
+        query: BOOKMARKS,
+        data: { bookmarks: addBookmark },
+      });
+    },
+  });
+  const [removeBookmark] = useMutation(REMOVE_BOOKMARK, {
+    update(cache, { data: { removeBookmark } }) {
+      props.setUserBookmarks(removeBookmark);
+      console.log("Removing bookmark");
+      cache.writeQuery({
+        query: BOOKMARKS,
+        data: { bookmarks: removeBookmark },
+      });
+    },
+  });
 
   const toggleBookmark = (subreddit, bookmarkToAdd) => {
     if (!props.userName) return;
-    setBookmarked(!bookmarked);
     const mutationVariables = {
       subreddit: { title: subreddit },
       userName: props.userName,
@@ -34,10 +51,10 @@ export const SubReddit = (props) => {
         <div
           className="star-container"
           onClick={() => {
-            toggleBookmark(props.title, !bookmarked);
+            toggleBookmark(props.title, !props.bookmarked);
           }}
         >
-          {bookmarked && props.userName ? (
+          {props.bookmarked && props.isLoggedIn ? (
             <StarIcon />
           ) : (
             <StarBorderOutlinedIcon />

@@ -20,6 +20,8 @@ export const RedditFeeder = (props) => {
                   ? props.bookmarks.includes(subreddit.title)
                   : false
               }
+              setUserBookmarks={props.setUserBookmarks}
+              isLoggedIn={props.isLoggedIn}
             ></SubReddit>
           </>
         );
