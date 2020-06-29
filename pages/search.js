@@ -16,7 +16,6 @@ import { UserNameInput } from "../components/UserNameInput/userNameInput";
 function Search() {
   const [searchTerm, setsearchTerm] = useState("gautier");
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [isLoggedOut, setIsLoggedOut] = useState(false);
   const [userName, setUserName] = useState();
   const [dataSrc, setDataSrc] = useState(POPULAR);
 
@@ -32,7 +31,7 @@ function Search() {
     onCompleted: (data) => {
       console.log("Completed");
       console.log(data.bookmarks);
-      if (data.bookmarks?.name !== userName || isLoggedOut) return;
+      if (data.bookmarks?.name !== userName) return;
       if (data && data.bookmarks.name) {
         if (
           userBookmarksCopy &&
@@ -52,14 +51,13 @@ function Search() {
 
   const login = (userName) => {
     console.log("Login", userName);
-    setIsLoggedOut(false);
+
     setUserName(userName);
     getBookmarks();
   };
 
   const logout = () => {
     setIsLoggedIn(false);
-    setIsLoggedOut(true);
     setUserBookmarksCopy(userBookmarks);
     setUserBookmarks();
     setUserName();
