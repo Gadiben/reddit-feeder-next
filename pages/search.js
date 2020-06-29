@@ -44,6 +44,7 @@ function Search() {
   const logout = () => {
     setIsLoggedIn(false);
     setUserBookmarks();
+    setUserName();
   };
 
   const changeDataSource = (newValue) => {
@@ -127,6 +128,7 @@ function Search() {
           <RedditFeeder
             query={dataSrc}
             bookmarks={userBookmarks?.bookmarks}
+            userName={userName}
           ></RedditFeeder>
         </>
       ) : (

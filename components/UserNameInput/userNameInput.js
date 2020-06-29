@@ -12,6 +12,7 @@ export const UserNameInput = (props) => {
         fullWidth
         label="Your username"
         value={userName}
+        disabled={props.isLoggedIn}
         onChange={(e) => {
           setUserName(e.target.value);
         }}

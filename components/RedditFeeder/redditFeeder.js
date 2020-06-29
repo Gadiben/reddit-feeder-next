@@ -11,10 +11,10 @@ export const RedditFeeder = (props) => {
       {data.searchPopularReddit.map((subreddit) => {
         return (
           <>
-            <p>{props.userName}</p>
             <SubReddit
               title={subreddit.title}
               posts={subreddit.posts}
+              userName={props.userName}
               bookmarked={
                 props.bookmarks
                   ? props.bookmarks.includes(subreddit.title)
