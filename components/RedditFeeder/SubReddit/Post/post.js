@@ -8,7 +8,9 @@ export const Post = (props) => {
       <div className="post-title">{props.post.title}</div>
       <div className="post-body">{props.post.content}</div>
 
-      {props.post.thumbnail && props.post.thumbnail !== "self" ? (
+      {props.post.thumbnail &&
+      props.post.thumbnail !== "self" &&
+      props.post.thumbnail !== "nsfw" ? (
         <img src={props.post.thumbnail} alt="Post thumbnail"></img>
       ) : (
         ""
