@@ -9,6 +9,7 @@ import Button from "@material-ui/core/Button";
 import CircularProgress from "@material-ui/core/CircularProgress";
 
 import { POPULAR, NEW, BOOKMARKS } from "../gql/queries";
+
 import { RedditFeeder } from "../components/RedditFeeder/redditFeeder";
 // import { UserNameInput } from "../components/UserNameInput/userNameInput";
 import { UserNameInput } from "../components/UserNameInput/userNameInput";
@@ -58,8 +59,9 @@ function Search() {
     }
   };
 
-  const signup = () => {
+  const signup = (userName) => {
     console.log("signup");
+    login(userName);
   };
 
   return (

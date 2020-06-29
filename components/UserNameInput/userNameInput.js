@@ -1,10 +1,17 @@
 import React, { useState } from "react";
 import userNameInputStyle from "./userNameInput.css";
-
+import { useMutation } from "@apollo/react-hooks";
+import { SIGNUP } from "../../gql/mutations";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 export const UserNameInput = (props) => {
   const [userName, setUserName] = useState();
+  const [signupMutation, { data }] = useMutation(SIGNUP);
+
+  const signup = () => {
+    signupMutation({ variables: { userName: userName } });
+    props.signup(userName);
+  };
   return (
     <>
       <TextField
@@ -32,7 +39,7 @@ export const UserNameInput = (props) => {
               size="small"
               variant="outlined"
               color="secondary"
-              onClick={() => props.signup()}
+              onClick={() => signup()}
             >
               Signup
             </Button>
