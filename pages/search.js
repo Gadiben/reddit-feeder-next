@@ -22,43 +22,34 @@ function Search() {
   const { loading, error, data } = useQuery(POPULAR);
 
   const [userBookmarks, setUserBookmarks] = useState();
-  const [userBookmarksCopy, setUserBookmarksCopy] = useState();
 
   const [getBookmarks, _] = useLazyQuery(BOOKMARKS, {
     variables: {
       userName: userName,
     },
+    fetchPolicy: "no-cache",
     onCompleted: (data) => {
-      console.log("Completed");
-      console.log(data.bookmarks);
-      if (data.bookmarks?.name !== userName) return;
+      // console.log("Completed");
+      // console.log(data.bookmarks);
+      if (data.bookmarks.name && data.bookmarks.name !== userName) return;
       if (data && data.bookmarks.name) {
-        if (
-          userBookmarksCopy &&
-          data.bookmarks.name == userBookmarksCopy.name
-        ) {
-          setUserBookmarks(userBookmarksCopy);
-        } else {
-          setUserBookmarks(data.bookmarks);
-        }
+        setUserBookmarks(data.bookmarks);
         setIsLoggedIn(true);
       } else {
         alert("Wrong username");
         setUserBookmarks();
+        setUserName();
       }
     },
   });
 
   const login = (userName) => {
-    console.log("Login", userName);
-
     setUserName(userName);
     getBookmarks();
   };
 
   const logout = () => {
     setIsLoggedIn(false);
-    setUserBookmarksCopy(userBookmarks);
     setUserBookmarks();
     setUserName();
   };
