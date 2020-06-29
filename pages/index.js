@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useQuery, useLazyQuery } from "@apollo/react-hooks";
+import { useLazyQuery } from "@apollo/react-hooks";
 
 import { withApollo } from "../libs/apollo";
 
@@ -12,9 +12,6 @@ function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userName, setUserName] = useState();
   const [searchTerm, setSearchTerm] = useState();
-
-  // const { loading, error, data } = useQuery(POPULAR);
-
   const [userBookmarks, setUserBookmarks] = useState();
 
   const [getBookmarks, _] = useLazyQuery(BOOKMARKS, {
