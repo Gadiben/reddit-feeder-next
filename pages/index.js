@@ -2,19 +2,18 @@ import React, { useState } from "react";
 import { useQuery, useLazyQuery } from "@apollo/react-hooks";
 
 import { withApollo } from "../libs/apollo";
-import CircularProgress from "@material-ui/core/CircularProgress";
 
-import { POPULAR, NEW, BOOKMARKS } from "../gql/queries";
-
+import { POPULAR, SEARCH, BOOKMARKS } from "../gql/queries";
+import CancelIcon from "@material-ui/icons/Cancel";
 import { RedditFeeder } from "../components/RedditFeeder/redditFeeder";
 import { SearchSubreddit } from "../components/SearchSubreddits/searchSubreddits";
 import { UserNameInput } from "../components/UserNameInput/userNameInput";
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userName, setUserName] = useState();
-  const [dataSrc, setDataSrc] = useState(POPULAR);
+  const [searchTerm, setSearchTerm] = useState();
 
-  const { loading, error, data } = useQuery(POPULAR);
+  // const { loading, error, data } = useQuery(POPULAR);
 
   const [userBookmarks, setUserBookmarks] = useState();
 
@@ -47,17 +46,6 @@ function App() {
     setUserName();
   };
 
-  const changeDataSource = (newValue) => {
-    switch (newValue) {
-      case "new":
-        setDataSrc(NEW);
-        break;
-      case "popular":
-        setDataSrc(POPULAR);
-        break;
-    }
-  };
-
   const signup = (userName) => {
     console.log("signup");
     login(userName);
@@ -74,12 +62,30 @@ function App() {
         />
       </div>
       <div className="title search">Search reddits</div>
-      <SearchSubreddit />
+      <div className="clear-search" onClick={() => setSearchTerm()}>
+        Clear search <CancelIcon></CancelIcon>
+      </div>
+      <SearchSubreddit onSearch={setSearchTerm} />
+      {searchTerm ? (
+        <RedditFeeder
+          query={SEARCH}
+          dataAccessor={"searchReddit"}
+          variables={{ term: searchTerm }}
+          bookmarks={userBookmarks?.bookmarks}
+          userName={userName}
+          isLoggedIn={isLoggedIn}
+          setUserBookmarks={setUserBookmarks}
+        ></RedditFeeder>
+      ) : (
+        ""
+      )}
+
       <div className="title browse">Browse popular reddits</div>
-      {data ? (
+      {true ? (
         <>
           <RedditFeeder
-            query={dataSrc}
+            query={POPULAR}
+            dataAccessor={"searchPopularReddit"}
             bookmarks={userBookmarks?.bookmarks}
             userName={userName}
             isLoggedIn={isLoggedIn}
@@ -94,7 +100,7 @@ function App() {
       <style jsx>
         {`
           .title {
-            font-size: 3em;
+            font-size: 2em;
             align-self: flex-start;
           }
 
@@ -108,7 +114,8 @@ function App() {
 
           .name-input {
             position: fixed;
-
+            z-index: 1;
+            border-bottom-left-radius: 10px;
             padding: 10px;
             right: 0;
             top: 0;
@@ -119,8 +126,10 @@ function App() {
               "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans",
               "Helvetica Neue", sans-serif;
           }
-          .loading {
-            margin-top: 50px;
+          .clear-search {
+            display: flex;
+            color: #aaa;
+            cursor: pointer;
           }
         `}
       </style>

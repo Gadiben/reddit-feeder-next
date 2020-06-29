@@ -34,6 +34,7 @@ export const SearchSubreddit = (props) => {
         <Button
           variant="contained"
           onClick={() => {
+            props.onSearch(searchTerm);
             console.log("clicked");
           }}
         >

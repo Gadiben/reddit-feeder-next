@@ -8,15 +8,6 @@ export const USERS = gql`
   }
 `;
 
-export const SEARCH = gql`
-  {
-    users {
-      name
-      bookmarks
-    }
-  }
-`;
-
 export const NEW = gql`
   {
     searchNewReddit {
@@ -38,6 +29,24 @@ export const NEW = gql`
 export const POPULAR = gql`
   {
     searchPopularReddit {
+      title
+      posts {
+        title
+        content
+        author
+        thumbnail
+        comments {
+          author
+          content
+        }
+      }
+    }
+  }
+`;
+
+export const SEARCH = gql`
+  query search($term: String!) {
+    searchReddit(term: $term) {
       title
       posts {
         title
