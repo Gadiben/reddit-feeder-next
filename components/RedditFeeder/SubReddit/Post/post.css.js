@@ -9,4 +9,7 @@ export default css`
   .post-author {
     font-size: 0.8em;
   }
+  .comments-container {
+    border-left: 1px #ccc solid;
+  }
 `;
